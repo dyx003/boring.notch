@@ -524,9 +524,9 @@ struct WeatherCardView: View {
                 Button {
                     showingDetails = weatherManager.snapshot != nil
                 } label: {
-                    cardContent(at: context.date)
+                    cardContent(at: context.date, width: geometry.size.width)
                         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-                        .contentShape(RoundedRectangle(cornerRadius: 14))
+                        .contentShape(Rectangle())
                 }
                 .frame(width: geometry.size.width, height: geometry.size.width)
                 .buttonStyle(.plain)
@@ -545,47 +545,65 @@ struct WeatherCardView: View {
     }
 
     @ViewBuilder
-    private func cardContent(at date: Date) -> some View {
-        VStack(alignment: .leading, spacing: 8) {
-            HStack {
+    private func cardContent(at date: Date, width: CGFloat) -> some View {
+        let isCompact = width < 190
+        let horizontalPadding = isCompact ? 12.0 : 18.0
+        let verticalPadding = isCompact ? 12.0 : 16.0
+        let headerFontSize = min(20.0, max(14.0, width * 0.07))
+        let temperatureFontSize = min(88.0, max(48.0, width * 0.27))
+        let highLowFontSize = min(30.0, max(18.0, width * 0.10))
+
+        VStack(spacing: 0) {
+            HStack(spacing: 6) {
                 if let snapshot = weatherManager.snapshot {
                     HStack(spacing: 4) {
                         Image(systemName: snapshot.symbolName)
-                            .font(.system(size: 12, weight: .semibold))
-                            .symbolRenderingMode(.multicolor)
+                            .font(.system(size: headerFontSize, weight: .semibold))
+                            .symbolRenderingMode(.monochrome)
+                            .foregroundStyle(.white)
                         Text(snapshot.localizedConditionDescription)
-                            .font(.system(size: 13, weight: .semibold, design: .rounded))
+                            .font(.system(size: headerFontSize, weight: .semibold, design: .rounded))
                             .foregroundStyle(WeatherCardStyle.accent)
+                            .lineLimit(1)
+                            .minimumScaleFactor(0.75)
                     }
                 } else {
                     Text("—")
-                        .font(.system(size: 13, weight: .semibold, design: .rounded))
+                        .font(.system(size: headerFontSize, weight: .semibold, design: .rounded))
                         .foregroundStyle(WeatherCardStyle.accent)
                 }
                 Spacer(minLength: 0)
                 Text(clockText(for: date))
-                    .font(.system(size: 13, weight: .medium, design: .rounded))
+                    .font(.system(size: headerFontSize, weight: .medium, design: .rounded))
                     .foregroundStyle(.white.opacity(0.55))
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.75)
             }
+            .frame(minHeight: 24)
 
             if let snapshot = weatherManager.snapshot {
                 Text("\(snapshot.temperature, specifier: "%.0f")°")
-                    .font(.system(size: 45, weight: .bold, design: .rounded))
+                    .font(.system(size: temperatureFontSize, weight: .bold, design: .rounded))
                     .foregroundStyle(.white)
                     .minimumScaleFactor(0.65)
                     .lineLimit(1)
                     .frame(maxWidth: .infinity, alignment: .center)
 
-                HStack(spacing: 16) {
+                HStack(spacing: 0) {
                     highLowRow(
+                        icon: "arrow.up",
                         label: String(localized: "最高"),
                         value: snapshot.highTemperature,
-                        color: WeatherCardStyle.warm
+                        color: WeatherCardStyle.warm,
+                        valueFontSize: highLowFontSize
                     )
+                    Spacer(minLength: isCompact ? 18 : 32)
                     highLowRow(
+                        icon: "arrow.down",
                         label: String(localized: "最低"),
                         value: snapshot.lowTemperature,
-                        color: WeatherCardStyle.cool
+                        color: WeatherCardStyle.cool,
+                        valueFontSize: highLowFontSize
                     )
                 }
                 .frame(maxWidth: .infinity, alignment: .center)
@@ -617,21 +635,33 @@ struct WeatherCardView: View {
                 )
             }
         }
-        .padding(13)
-        .frame(maxWidth: .infinity, minHeight: 112, alignment: .topLeading)
+        .padding(.horizontal, horizontalPadding)
+        .padding(.vertical, verticalPadding)
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
         .background(WeatherCardStyle.background)
-        .clipShape(RoundedRectangle(cornerRadius: 14))
     }
 
-    private func highLowRow(label: String, value: Double, color: Color) -> some View {
-        VStack(spacing: 2) {
-            Text(label)
-                .font(.system(size: 9, weight: .medium, design: .rounded))
-                .foregroundStyle(.white.opacity(0.45))
+    private func highLowRow(
+        icon: String,
+        label: String,
+        value: Double,
+        color: Color,
+        valueFontSize: CGFloat
+    ) -> some View {
+        VStack(spacing: 3) {
+            HStack(spacing: 4) {
+                Image(systemName: icon)
+                    .font(.system(size: 12, weight: .bold))
+                    .foregroundStyle(color)
+                Text(label)
+                    .font(.system(size: 13, weight: .medium, design: .rounded))
+                    .foregroundStyle(.white.opacity(0.52))
+            }
             Text("\(value, specifier: "%.0f")°")
-                .font(.system(size: 15, weight: .semibold, design: .rounded))
+                .font(.system(size: valueFontSize, weight: .semibold, design: .rounded))
                 .foregroundStyle(color)
         }
+        .frame(maxWidth: .infinity)
     }
 
     private func clockText(for date: Date) -> String {

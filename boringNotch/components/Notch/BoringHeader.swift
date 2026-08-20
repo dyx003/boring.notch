@@ -120,40 +120,78 @@ struct BoringHeader: View {
 }
 
 struct CodexHeaderView: View {
-    // Temporary display values for the first UI version.
-    // The Codex usage data source will replace these values in the next step.
-    private let weeklyRemaining = "64%"
-    private let weeklyReset = "2天6小时"
+    @ObservedObject private var codexManager = CodexUsageManager.shared
 
     var body: some View {
-        Button(action: {}) {
-            HStack(spacing: 5) {
-                Image("Codex")
-                    .resizable()
-                    .interpolation(.high)
-                    .scaledToFit()
-                    .frame(width: 18, height: 18)
-                    .clipShape(RoundedRectangle(cornerRadius: 4, style: .continuous))
+        TimelineView(.periodic(from: .now, by: 60)) { context in
+            Button {
+                codexManager.refresh()
+            } label: {
+                HStack(spacing: 5) {
+                    Image("Codex")
+                        .resizable()
+                        .interpolation(.high)
+                        .scaledToFit()
+                        .frame(width: 18, height: 18)
+                        .clipShape(RoundedRectangle(cornerRadius: 4, style: .continuous))
 
-                Text(weeklyRemaining)
-                    .font(.system(size: 14, weight: .semibold, design: .rounded))
-                    .foregroundStyle(.green)
-                    .fixedSize(horizontal: true, vertical: false)
+                    switch codexManager.state {
+                    case let .loaded(snapshot):
+                        Text("\(snapshot.weeklyRemaining)%")
+                            .font(.system(size: 14, weight: .semibold, design: .rounded))
+                            .foregroundStyle(.green)
+                            .fixedSize(horizontal: true, vertical: false)
 
-                Text("↻ \(weeklyReset)")
-                    .font(.system(size: 11, weight: .medium, design: .rounded))
-                    .foregroundStyle(.white.opacity(0.58))
-                    .lineLimit(1)
-                    .fixedSize(horizontal: true, vertical: false)
+                        Text("↻ \(codexManager.resetText(at: snapshot.weeklyResetAt, now: context.date))")
+                            .font(.system(size: 11, weight: .medium, design: .rounded))
+                            .foregroundStyle(.white.opacity(0.58))
+                            .lineLimit(1)
+                            .fixedSize(horizontal: true, vertical: false)
+                    case .loading:
+                        ProgressView()
+                            .controlSize(.mini)
+                    case .signedOut:
+                        Text("未登录")
+                            .font(.system(size: 12, weight: .medium, design: .rounded))
+                            .foregroundStyle(.white.opacity(0.65))
+                            .fixedSize(horizontal: true, vertical: false)
+                    case .failed:
+                        Text("—")
+                            .font(.system(size: 14, weight: .semibold, design: .rounded))
+                            .foregroundStyle(.white.opacity(0.6))
+                            .fixedSize(horizontal: true, vertical: false)
+                    case .idle:
+                        Text("读取中")
+                            .font(.system(size: 12, weight: .medium, design: .rounded))
+                            .foregroundStyle(.white.opacity(0.65))
+                            .fixedSize(horizontal: true, vertical: false)
+                    }
+                }
+                .frame(height: 30)
+                .fixedSize(horizontal: true, vertical: false)
+                .contentShape(Rectangle())
             }
-            .frame(height: 30)
+            .buttonStyle(.plain)
             .fixedSize(horizontal: true, vertical: false)
-            .contentShape(Rectangle())
+            .layoutPriority(2)
         }
-        .buttonStyle(.plain)
-        .fixedSize(horizontal: true, vertical: false)
-        .layoutPriority(2)
-        .accessibilityLabel("Codex 周额度剩余 \(weeklyRemaining)，\(weeklyReset)后刷新")
+        .onAppear {
+            codexManager.refreshIfNeeded()
+        }
+        .accessibilityLabel(accessibilityLabel)
+    }
+
+    private var accessibilityLabel: String {
+        switch codexManager.state {
+        case let .loaded(snapshot):
+            return "Codex 周额度剩余 \(snapshot.weeklyRemaining)%"
+        case .loading, .idle:
+            return "正在读取 Codex 周额度"
+        case .signedOut:
+            return "Codex 未登录"
+        case let .failed(message):
+            return "Codex 额度读取失败：\(message)"
+        }
     }
 }
 

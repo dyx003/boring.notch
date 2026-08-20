@@ -241,10 +241,26 @@ final class XPCHelperClient: NSObject {
             return false
         }
     }
+
+    // MARK: - Codex Usage
+
+    nonisolated func readCodexUsage() async -> (payload: String?, error: String?) {
+        do {
+            let service = await MainActor.run {
+                ensureRemoteService()
+            }
+            return try await service.withContinuation { service, continuation in
+                service.readCodexUsage { payload, error in
+                    continuation.resume(returning: (payload as String?, error as String?))
+                }
+            }
+        } catch {
+            return (nil, error.localizedDescription)
+        }
+    }
 }
 
 extension Notification.Name {
     static let accessibilityAuthorizationChanged = Notification.Name("accessibilityAuthorizationChanged")
 }
-
 

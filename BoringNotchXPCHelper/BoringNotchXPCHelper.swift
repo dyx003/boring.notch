@@ -139,6 +139,19 @@ class BoringNotchXPCHelper: NSObject, BoringNotchXPCHelperProtocol {
         reply(false)
     }
 
+    // MARK: - Codex usage
+
+    @objc func readCodexUsage(with reply: @escaping (NSString?, NSString?) -> Void) {
+        DispatchQueue.global(qos: .utility).async {
+            do {
+                let payload = try CodexAppServerClient().readUsage()
+                reply(payload as NSString, nil)
+            } catch {
+                reply(nil, error.localizedDescription as NSString)
+            }
+        }
+    }
+
     // MARK: - Private helpers for DisplayServices / IOKit access
     private func displayServicesGetBrightness(displayID: CGDirectDisplayID, out: inout Float) -> Bool {
         guard let sym = dlsym(DisplayServicesHandle.handle, "DisplayServicesGetBrightness") else { return false }

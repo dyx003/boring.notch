@@ -5644,16 +5644,6 @@
         }
       }
     },
-    "Codex 周额度剩余 %@，%@后刷新" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Codex 周额度剩余 %1$@，%2$@后刷新"
-          }
-        }
-      }
-    },
     "Color Presets" : {
       "localizations" : {
         "ar" : {
@@ -23921,6 +23911,12 @@
 
     },
     "最高" : {
+
+    },
+    "未登录" : {
+
+    },
+    "读取中" : {
 
     }
   },

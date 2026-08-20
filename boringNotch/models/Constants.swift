@@ -107,6 +107,9 @@ extension Defaults.Keys {
     static let showNotHumanFace = Key<Bool>("showNotHumanFace", default: false)
     static let tileShowLabels = Key<Bool>("tileShowLabels", default: false)
     static let showCalendar = Key<Bool>("showCalendar", default: false)
+    static let showWeather = Key<Bool>("showWeather", default: true)
+    static let weatherCity = Key<String>("weatherCity", default: "")
+    static let weatherUseCurrentLocation = Key<Bool>("weatherUseCurrentLocation", default: true)
     static let hideCompletedReminders = Key<Bool>("hideCompletedReminders", default: true)
     static let sliderColor = Key<SliderColorEnum>(
         "sliderUseAlbumArtColor",

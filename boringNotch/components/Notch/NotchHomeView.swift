@@ -113,6 +113,7 @@ struct MusicControlsView: View {
     @ObservedObject var musicManager = MusicManager.shared
         @EnvironmentObject var vm: BoringViewModel
         @ObservedObject var webcamManager = WebcamManager.shared
+    @Default(.showWeather) private var showWeather
     @State private var sliderValue: Double = 0
     @State private var dragging: Bool = false
     @State private var lastDragged: Date = .distantPast
@@ -228,8 +229,14 @@ struct MusicControlsView: View {
         )
         let padded = slotConfig.padded(to: sanitizedLimit, filler: .none)
         let result = Array(padded.prefix(sanitizedLimit))
-        // If calendar and camera are both visible alongside music, hide the edge slots
-        let shouldHideEdges = Defaults[.showCalendar] && Defaults[.showMirror] && webcamManager.cameraAvailable && vm.isCameraExpanded
+        // If calendar and an expanded mirror/weather panel are visible alongside music,
+        // hide the edge slots to keep the remaining controls from being compressed.
+        let mirrorIsExpanded = Defaults[.showMirror]
+            && webcamManager.cameraAvailable
+            && vm.isCameraExpanded
+        let weatherIsExpanded = showWeather && vm.isWeatherExpanded
+        let shouldHideEdges = Defaults[.showCalendar]
+            && (mirrorIsExpanded || weatherIsExpanded)
         if shouldHideEdges && result.count >= 5 {
             return Array(result.dropFirst().dropLast())
         }
@@ -423,6 +430,7 @@ struct NotchHomeView: View {
     @ObservedObject var webcamManager = WebcamManager.shared
     @ObservedObject var batteryModel = BatteryStatusViewModel.shared
     @ObservedObject var coordinator = BoringViewCoordinator.shared
+    @Default(.showWeather) private var showWeather
     let albumArtNamespace: Namespace.ID
 
     var body: some View {
@@ -439,13 +447,31 @@ struct NotchHomeView: View {
         Defaults[.showMirror] && webcamManager.cameraAvailable && vm.isCameraExpanded
     }
 
+    private var shouldShowWeatherCard: Bool {
+        showWeather && vm.isWeatherExpanded && !shouldShowCamera
+    }
+
+    private var shouldUseCompactHomeLayout: Bool {
+        shouldShowCamera || shouldShowWeatherCard
+    }
+
     private var mainContent: some View {
-        HStack(alignment: .top, spacing: (shouldShowCamera && Defaults[.showCalendar]) ? 10 : 15) {
+        HStack(
+            alignment: .top,
+            spacing: (shouldUseCompactHomeLayout && Defaults[.showCalendar]) ? 10 : 15
+        ) {
             MusicPlayerView(albumArtNamespace: albumArtNamespace)
+
+            if shouldShowWeatherCard {
+                WeatherCardView()
+                    .frame(minWidth: 0, maxWidth: .infinity)
+                    .scaledToFit()
+                    .transition(.opacity.combined(with: .scale(scale: 0.96)))
+            }
 
             if Defaults[.showCalendar] {
                 CalendarView()
-                    .frame(width: shouldShowCamera ? 170 : 215)
+                    .frame(width: shouldUseCompactHomeLayout ? 170 : 215)
                     .onHover { isHovering in
                         vm.isHoveringCalendar = isHovering
                     }

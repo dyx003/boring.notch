@@ -39,6 +39,7 @@ class BoringViewModel: NSObject, ObservableObject {
     
     let webcamManager = WebcamManager.shared
     @Published var isCameraExpanded: Bool = false
+    @Published var isWeatherExpanded: Bool = false
     @Published var isRequestingAuthorization: Bool = false
     
     deinit {
@@ -173,6 +174,12 @@ class BoringViewModel: NSObject, ObservableObject {
 
         default:
             break
+        }
+    }
+
+    func toggleWeatherPreview() {
+        withAnimation(.easeInOut(duration: 0.25)) {
+            isWeatherExpanded.toggle()
         }
     }
     

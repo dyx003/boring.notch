@@ -39,6 +39,9 @@ struct SettingsView: View {
                 NavigationLink(value: "Calendar") {
                     Label("Calendar", systemImage: "calendar")
                 }
+                NavigationLink(value: "Weather") {
+                    Label("Weather", systemImage: "cloud.sun.fill")
+                }
                 NavigationLink(value: "HUD") {
                     Label("HUDs", systemImage: "dial.medium.fill")
                 }
@@ -79,6 +82,8 @@ struct SettingsView: View {
                     Media()
                 case "Calendar":
                     CalendarSettings()
+                case "Weather":
+                    WeatherSettings()
                 case "HUD":
                     HUD()
                 case "Battery":
@@ -704,6 +709,119 @@ struct Media: View {
         } else {
             return MediaControllerType.allCases
         }
+    }
+}
+
+struct WeatherSettings: View {
+    @ObservedObject private var weatherManager = WeatherManager.shared
+    @Default(.weatherUseCurrentLocation) private var useCurrentLocation
+    @State private var cityInput = ""
+    @State private var isSaving = false
+
+    var body: some View {
+        Form {
+            Section {
+                Defaults.Toggle(key: .showWeather) {
+                    Text("Show weather on Home")
+                }
+            } header: {
+                Text("Weather")
+            }
+
+            Section {
+                Toggle("Use current location", isOn: $useCurrentLocation)
+                    .onChange(of: useCurrentLocation) { _, enabled in
+                        Task { @MainActor in
+                            await weatherManager.setUseCurrentLocation(enabled)
+                        }
+                    }
+
+                Text(
+                    useCurrentLocation
+                        ? "Boring Notch will use your Mac's location for weather."
+                        : "Use a saved city instead of location services."
+                )
+                .font(.caption)
+                .foregroundStyle(.secondary)
+
+                if useCurrentLocation {
+                    HStack(spacing: 8) {
+                        Button("Refresh location") {
+                            Task { @MainActor in
+                                await weatherManager.refresh()
+                            }
+                        }
+
+                        Button("Open Location Services Settings") {
+                            openLocationServicesSettings()
+                        }
+                    }
+                }
+
+                HStack(spacing: 8) {
+                    TextField("City name", text: $cityInput)
+                        .textFieldStyle(.roundedBorder)
+
+                    Button(isSaving ? "Saving…" : "Save") {
+                        Task { @MainActor in
+                            isSaving = true
+                            await weatherManager.updateCity(cityInput)
+                            isSaving = false
+                        }
+                    }
+                    .disabled(
+                        cityInput.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+                            || isSaving
+                    )
+                }
+
+                Text("Enter a city such as Shanghai, Tokyo, or New York.")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+
+                if let snapshot = weatherManager.snapshot {
+                    HStack {
+                        Image(systemName: snapshot.symbolName)
+                            .symbolRenderingMode(.multicolor)
+                        Text(snapshot.locationDisplayName)
+                        Spacer()
+                        Text("\(snapshot.temperature, specifier: "%.0f")°C")
+                            .fontWeight(.medium)
+                    }
+
+                    Button("Refresh now") {
+                        Task { @MainActor in
+                            await weatherManager.refresh()
+                        }
+                    }
+                } else if let errorMessage = weatherManager.errorMessage {
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text(errorMessage)
+                            .foregroundStyle(.red)
+                            .font(.caption)
+
+                    }
+                }
+            } header: {
+                Text("Location")
+            }
+        }
+        .accentColor(.effectiveAccent)
+        .navigationTitle("Weather")
+        .onAppear {
+            cityInput = weatherManager.cityName
+            useCurrentLocation = weatherManager.usesCurrentLocation
+            Task { @MainActor in
+                await weatherManager.refreshIfNeeded()
+            }
+        }
+    }
+
+    private func openLocationServicesSettings() {
+        guard let url = URL(
+            string: "x-apple.systempreferences:com.apple.preference.security?Privacy_LocationServices"
+        ) else { return }
+        NSWorkspace.shared.open(url)
     }
 }
 

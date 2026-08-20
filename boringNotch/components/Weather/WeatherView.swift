@@ -702,11 +702,12 @@ struct WeatherHeaderView: View {
         } label: {
             HStack(spacing: 5) {
                 if let snapshot = weatherManager.snapshot {
-                    Image(systemName: snapshot.symbolName)
+                Image(systemName: snapshot.symbolName)
                         .font(.system(size: 13, weight: .medium))
                         .symbolRenderingMode(.multicolor)
                     Text("\(snapshot.temperature, specifier: "%.0f")°")
                         .font(.system(size: 13, weight: .medium, design: .rounded))
+                        .fixedSize(horizontal: true, vertical: false)
                 } else if weatherManager.isLoading {
                     ProgressView()
                         .controlSize(.mini)
@@ -719,9 +720,11 @@ struct WeatherHeaderView: View {
             .foregroundStyle(.white)
             .padding(.horizontal, 8)
             .frame(height: 30)
+            .fixedSize(horizontal: true, vertical: false)
             .background(Capsule().fill(Color.black))
         }
         .buttonStyle(.plain)
+        .fixedSize(horizontal: true, vertical: false)
         .onAppear {
             Task { await weatherManager.refreshIfNeeded() }
         }

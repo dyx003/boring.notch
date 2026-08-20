@@ -43,8 +43,11 @@ struct BoringHeader: View {
                         OpenNotchHUD(type: $coordinator.sneakPeek.type, value: $coordinator.sneakPeek.value, icon: $coordinator.sneakPeek.icon)
                             .transition(.scale(scale: 0.8).combined(with: .opacity))
                     } else {
+                        CodexHeaderView()
+                            .layoutPriority(2)
                         if showWeather {
                             WeatherHeaderView()
+                                .layoutPriority(1)
                         }
                         if Defaults[.showMirror] {
                             Button(action: {
@@ -113,6 +116,44 @@ struct BoringHeader: View {
         default:
             return false
         }
+    }
+}
+
+struct CodexHeaderView: View {
+    // Temporary display values for the first UI version.
+    // The Codex usage data source will replace these values in the next step.
+    private let weeklyRemaining = "64%"
+    private let weeklyReset = "2天6小时"
+
+    var body: some View {
+        Button(action: {}) {
+            HStack(spacing: 5) {
+                Image("Codex")
+                    .resizable()
+                    .interpolation(.high)
+                    .scaledToFit()
+                    .frame(width: 18, height: 18)
+                    .clipShape(RoundedRectangle(cornerRadius: 4, style: .continuous))
+
+                Text(weeklyRemaining)
+                    .font(.system(size: 14, weight: .semibold, design: .rounded))
+                    .foregroundStyle(.green)
+                    .fixedSize(horizontal: true, vertical: false)
+
+                Text("↻ \(weeklyReset)")
+                    .font(.system(size: 11, weight: .medium, design: .rounded))
+                    .foregroundStyle(.white.opacity(0.58))
+                    .lineLimit(1)
+                    .fixedSize(horizontal: true, vertical: false)
+            }
+            .frame(height: 30)
+            .fixedSize(horizontal: true, vertical: false)
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+        .fixedSize(horizontal: true, vertical: false)
+        .layoutPriority(2)
+        .accessibilityLabel("Codex 周额度剩余 \(weeklyRemaining)，\(weeklyReset)后刷新")
     }
 }
 

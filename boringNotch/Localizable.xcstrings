@@ -1310,6 +1310,9 @@
         }
       }
     },
+    "↻ %@" : {
+
+    },
     "About" : {
       "localizations" : {
         "ar" : {
@@ -5637,6 +5640,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "收起状态"
+          }
+        }
+      }
+    },
+    "Codex 周额度剩余 %@，%@后刷新" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Codex 周额度剩余 %1$@，%2$@后刷新"
           }
         }
       }

@@ -508,9 +508,10 @@ final class WeatherManager: ObservableObject {
 }
 
 private enum WeatherCardStyle {
-    static let accent = Color(red: 0.46, green: 0.78, blue: 0.36)
-    static let warm = Color(red: 0.92, green: 0.58, blue: 0.22)
-    static let surface = Color.black
+    static let accent = Color(red: 0.48, green: 0.82, blue: 0.48)
+    static let warm = Color(red: 0.98, green: 0.60, blue: 0.25)
+    static let cool = Color(red: 0.40, green: 0.77, blue: 0.97)
+    static let background = Color.black
 }
 
 struct WeatherCardView: View {
@@ -547,41 +548,46 @@ struct WeatherCardView: View {
     private func cardContent(at date: Date) -> some View {
         VStack(alignment: .leading, spacing: 8) {
             HStack {
+                if let snapshot = weatherManager.snapshot {
+                    HStack(spacing: 4) {
+                        Image(systemName: snapshot.symbolName)
+                            .font(.system(size: 12, weight: .semibold))
+                            .symbolRenderingMode(.multicolor)
+                        Text(snapshot.localizedConditionDescription)
+                            .font(.system(size: 13, weight: .semibold, design: .rounded))
+                            .foregroundStyle(WeatherCardStyle.accent)
+                    }
+                } else {
+                    Text("—")
+                        .font(.system(size: 13, weight: .semibold, design: .rounded))
+                        .foregroundStyle(WeatherCardStyle.accent)
+                }
                 Spacer(minLength: 0)
-                Text(dateText(for: date))
-                    .font(.system(size: 12, weight: .semibold, design: .rounded))
-                    .foregroundStyle(WeatherCardStyle.accent)
-                    .padding(.horizontal, 10)
-                    .frame(height: 26)
-                    .background(
-                        Capsule()
-                            .fill(WeatherCardStyle.accent.opacity(0.13))
-                    )
-                Spacer(minLength: 0)
+                Text(clockText(for: date))
+                    .font(.system(size: 13, weight: .medium, design: .rounded))
+                    .foregroundStyle(.white.opacity(0.55))
             }
 
-            timeText(for: date)
-
             if let snapshot = weatherManager.snapshot {
-                HStack(spacing: 5) {
-                    Image(systemName: snapshot.symbolName)
-                        .font(.system(size: 16, weight: .semibold))
-                        .symbolRenderingMode(.monochrome)
-                        .foregroundStyle(WeatherCardStyle.warm)
+                Text("\(snapshot.temperature, specifier: "%.0f")°")
+                    .font(.system(size: 45, weight: .bold, design: .rounded))
+                    .foregroundStyle(.white)
+                    .minimumScaleFactor(0.65)
+                    .lineLimit(1)
+                    .frame(maxWidth: .infinity, alignment: .center)
 
-                    Text(snapshot.localizedConditionDescription)
-                        .foregroundStyle(WeatherCardStyle.warm)
-                        .lineLimit(1)
-                        .layoutPriority(1)
-
-                    Text(
-                        "\(snapshot.lowTemperature, specifier: "%.0f")°-\(snapshot.highTemperature, specifier: "%.0f")°"
+                HStack(spacing: 16) {
+                    highLowRow(
+                        label: String(localized: "最高"),
+                        value: snapshot.highTemperature,
+                        color: WeatherCardStyle.warm
                     )
-                        .foregroundStyle(.white)
-                        .lineLimit(1)
-                        .fixedSize(horizontal: true, vertical: false)
+                    highLowRow(
+                        label: String(localized: "最低"),
+                        value: snapshot.lowTemperature,
+                        color: WeatherCardStyle.cool
+                    )
                 }
-                .font(.system(size: 11, weight: .medium, design: .rounded))
                 .frame(maxWidth: .infinity, alignment: .center)
             } else if weatherManager.isLoading {
                 statusText(
@@ -613,27 +619,26 @@ struct WeatherCardView: View {
         }
         .padding(13)
         .frame(maxWidth: .infinity, minHeight: 112, alignment: .topLeading)
-        .background(WeatherCardStyle.surface)
+        .background(WeatherCardStyle.background)
         .clipShape(RoundedRectangle(cornerRadius: 14))
     }
 
-    private func timeText(for date: Date) -> some View {
+    private func highLowRow(label: String, value: Double, color: Color) -> some View {
+        VStack(spacing: 2) {
+            Text(label)
+                .font(.system(size: 9, weight: .medium, design: .rounded))
+                .foregroundStyle(.white.opacity(0.45))
+            Text("\(value, specifier: "%.0f")°")
+                .font(.system(size: 15, weight: .semibold, design: .rounded))
+                .foregroundStyle(color)
+        }
+    }
+
+    private func clockText(for date: Date) -> String {
         let formatter = DateFormatter()
         formatter.locale = .current
         formatter.dateFormat = "HH:mm"
-        let parts = formatter.string(from: date).split(separator: ":", maxSplits: 1)
-
-        return HStack(alignment: .firstTextBaseline, spacing: 0) {
-            Text(parts.first.map(String.init) ?? "--")
-            Text(":")
-            Text(parts.count > 1 ? String(parts[1]) : "--")
-                .foregroundStyle(WeatherCardStyle.warm)
-        }
-        .font(.system(size: 45, weight: .bold, design: .rounded))
-        .foregroundStyle(.white)
-        .minimumScaleFactor(0.65)
-        .lineLimit(1)
-        .frame(maxWidth: .infinity, alignment: .center)
+        return formatter.string(from: date)
     }
 
     private func statusText(icon: String, title: String, detail: String?) -> some View {
@@ -654,13 +659,6 @@ struct WeatherCardView: View {
             }
         }
         .font(.system(size: 11, weight: .medium, design: .rounded))
-    }
-
-    private func dateText(for date: Date) -> String {
-        let formatter = DateFormatter()
-        formatter.locale = .current
-        formatter.dateFormat = "EEE, M/d"
-        return formatter.string(from: date)
     }
 }
 

@@ -204,9 +204,6 @@
     "—" : {
 
     },
-    ":" : {
-
-    },
     "'Now Playing' was the only option on previous versions and works with all media apps." : {
       "localizations" : {
         "ar" : {
@@ -509,16 +506,6 @@
     },
     "%.0f°" : {
 
-    },
-    "%.0f°-%.0f°" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "%1$.0f°-%2$.0f°"
-          }
-        }
-      }
     },
     "%.0f°C" : {
 
@@ -5244,6 +5231,16 @@
         }
       }
     },
+    "City not found. Try another city name." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "找不到该城市，请尝试其他城市名称。"
+          }
+        }
+      }
+    },
     "Clear slot" : {
       "localizations" : {
         "ar" : {
@@ -6240,6 +6237,16 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "圆角半径"
+          }
+        }
+      }
+    },
+    "Current location is temporarily unavailable." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "当前位置暂时不可用。"
           }
         }
       }
@@ -9460,6 +9467,16 @@
         }
       }
     },
+    "Feels like" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "体感温度"
+          }
+        }
+      }
+    },
     "Files dropped on the shelf will be shared via this service" : {
       "localizations" : {
         "ar" : {
@@ -12061,12 +12078,42 @@
         }
       }
     },
+    "Loading weather…" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "正在加载天气…"
+          }
+        }
+      }
+    },
+    "Locating…" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "正在定位…"
+          }
+        }
+      }
+    },
     "Location" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "位置"
+          }
+        }
+      }
+    },
+    "Location access is denied. Set a city manually or enable Location Services." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "定位权限被拒绝。请手动设置城市或启用定位服务。"
           }
         }
       }
@@ -18534,6 +18581,16 @@
         }
       }
     },
+    "Set a city in Settings" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "请在设置中设置城市"
+          }
+        }
+      }
+    },
     "Settings" : {
       "localizations" : {
         "ar" : {
@@ -21346,6 +21403,26 @@
         }
       }
     },
+    "Temperature" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "温度"
+          }
+        }
+      }
+    },
+    "The weather service returned an invalid response." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "天气服务返回了无效响应。"
+          }
+        }
+      }
+    },
     "Time to Full Charge: %lld min" : {
       "localizations" : {
         "ar" : {
@@ -21542,6 +21619,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "使用强调色显示进度条"
+          }
+        }
+      }
+    },
+    "Today" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "今天"
           }
         }
       }
@@ -21846,6 +21933,16 @@
         }
       }
     },
+    "Unable to create the weather request." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无法创建天气请求。"
+          }
+        }
+      }
+    },
     "Uninstall" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -21943,6 +22040,16 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "卸载"
+          }
+        }
+      }
+    },
+    "Unknown" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未知"
           }
         }
       }
@@ -22567,6 +22674,16 @@
         }
       }
     },
+    "Using saved city because current location is unavailable." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "当前位置不可用，正在使用已保存的城市。"
+          }
+        }
+      }
+    },
     "Using System Accent" : {
       "localizations" : {
         "ar" : {
@@ -22973,6 +23090,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "天气"
+          }
+        }
+      }
+    },
+    "Weather unavailable" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "天气不可用"
           }
         }
       }
@@ -23777,145 +23904,11 @@
         }
       }
     },
-    "Unable to create the weather request." : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "无法创建天气请求。"
-          }
-        }
-      }
+    "最低" : {
+
     },
-    "City not found. Try another city name." : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "找不到该城市，请尝试其他城市名称。"
-          }
-        }
-      }
-    },
-    "The weather service returned an invalid response." : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "天气服务返回了无效响应。"
-          }
-        }
-      }
-    },
-    "Location access is denied. Set a city manually or enable Location Services." : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "定位权限被拒绝。请手动设置城市或启用定位服务。"
-          }
-        }
-      }
-    },
-    "Current location is temporarily unavailable." : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "当前位置暂时不可用。"
-          }
-        }
-      }
-    },
-    "Using saved city because current location is unavailable." : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "当前位置不可用，正在使用已保存的城市。"
-          }
-        }
-      }
-    },
-    "Locating…" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "正在定位…"
-          }
-        }
-      }
-    },
-    "Loading weather…" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "正在加载天气…"
-          }
-        }
-      }
-    },
-    "Unknown" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "未知"
-          }
-        }
-      }
-    },
-    "Weather unavailable" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "天气不可用"
-          }
-        }
-      }
-    },
-    "Set a city in Settings" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "请在设置中设置城市"
-          }
-        }
-      }
-    },
-    "Temperature" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "温度"
-          }
-        }
-      }
-    },
-    "Feels like" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "体感温度"
-          }
-        }
-      }
-    },
-    "Today" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "今天"
-          }
-        }
-      }
+    "最高" : {
+
     }
   },
   "version" : "1.0"

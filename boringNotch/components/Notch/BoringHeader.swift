@@ -95,6 +95,8 @@ struct BoringHeader: View {
                                 timeToFullCharge: batteryModel.timeToFullCharge,
                                 isForNotification: false
                             )
+                            .fixedSize(horizontal: true, vertical: false)
+                            .layoutPriority(3)
                         }
                     }
                 }

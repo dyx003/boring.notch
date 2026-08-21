@@ -99,7 +99,6 @@
 		14D570C02C5EA5870011E668 /* AnimatedFace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14D570BF2C5EA5870011E668 /* AnimatedFace.swift */; };
 		14D570C22C5EAFBF0011E668 /* EmptyState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14D570C12C5EAFBF0011E668 /* EmptyState.swift */; };
 		14D570C62C5F38210011E668 /* BoringHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14D570C52C5F38210011E668 /* BoringHeader.swift */; };
-		C0D300022F00000100000001 /* CodexUsageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0D300012F00000100000001 /* CodexUsageManager.swift */; };
 		14D570C92C5F38890011E668 /* BoringViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14D570C82C5F38890011E668 /* BoringViewModel.swift */; };
 		14D570CB2C5F4B2C0011E668 /* BatteryStatusViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14D570CA2C5F4B2C0011E668 /* BatteryStatusViewModel.swift */; };
 		14D570CD2C5F4BB70011E668 /* BoringBattery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14D570CC2C5F4BB70011E668 /* BoringBattery.swift */; };
@@ -143,6 +142,7 @@
 		B1F0A0022E60000100000001 /* BrightnessManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1F0A0012E60000100000001 /* BrightnessManager.swift */; };
 		B1F747F92EC7E94000F841DB /* LottieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1F747F82EC7E94000F841DB /* LottieView.swift */; };
 		B1FEB4992C7686630066EBBC /* PanGesture.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1FEB4982C7686630066EBBC /* PanGesture.swift */; };
+		C0D300022F00000100000001 /* CodexUsageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0D300012F00000100000001 /* CodexUsageManager.swift */; };
 		F38DE6482D8243E7008B5C6D /* BatteryActivityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F38DE6472D8243E2008B5C6D /* BatteryActivityManager.swift */; };
 		F4A1B2C42F00000100000001 /* WeatherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A1B2C32F00000100000001 /* WeatherView.swift */; };
 /* End PBXBuildFile section */
@@ -310,8 +310,8 @@
 		B1F0A0012E60000100000001 /* BrightnessManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrightnessManager.swift; sourceTree = "<group>"; };
 		B1F747F82EC7E94000F841DB /* LottieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottieView.swift; sourceTree = "<group>"; };
 		B1FEB4982C7686630066EBBC /* PanGesture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanGesture.swift; sourceTree = "<group>"; };
-		F38DE6472D8243E2008B5C6D /* BatteryActivityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryActivityManager.swift; sourceTree = "<group>"; };
 		C0D300012F00000100000001 /* CodexUsageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodexUsageManager.swift; sourceTree = "<group>"; };
+		F38DE6472D8243E2008B5C6D /* BatteryActivityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryActivityManager.swift; sourceTree = "<group>"; };
 		F4A1B2C32F00000100000001 /* WeatherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -1240,7 +1240,7 @@
 				CURRENT_PROJECT_VERSION = 271;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"boringNotch/Preview Content\"";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = U3XGKZW492;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -1295,7 +1295,7 @@
 				CURRENT_PROJECT_VERSION = 271;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"boringNotch/Preview Content\"";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = U3XGKZW492;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				FRAMEWORK_SEARCH_PATHS = (

@@ -565,19 +565,22 @@ struct WeatherCardView: View {
                             .font(.system(size: headerFontSize, weight: .semibold, design: .rounded))
                             .foregroundStyle(WeatherCardStyle.accent)
                             .lineLimit(1)
-                            .minimumScaleFactor(0.75)
+                            .allowsTightening(true)
+                            .minimumScaleFactor(0.45)
                     }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .layoutPriority(1)
                 } else {
                     Text("—")
                         .font(.system(size: headerFontSize, weight: .semibold, design: .rounded))
                         .foregroundStyle(WeatherCardStyle.accent)
+                        .frame(maxWidth: .infinity, alignment: .leading)
                 }
-                Spacer(minLength: 0)
                 Text(clockText(for: date))
                     .font(.system(size: headerFontSize, weight: .medium, design: .rounded))
                     .foregroundStyle(.white.opacity(0.55))
                     .lineLimit(1)
-                    .minimumScaleFactor(0.75)
+                    .fixedSize(horizontal: true, vertical: false)
             }
             .frame(minHeight: 24)
 
